@@ -14,21 +14,21 @@
     "media": [
       {
         "type": "font",
-        "name": "FONT_TIME_14",
-        "file": "fonts/BarlowCondensed-Bold.ttf",
+        "name": "FONT_LG_20",
+        "file": "fonts/LeagueGothic-Regular.ttf",
         "characterRegex": "[0-9:]"
       },
       {
         "type": "font",
-        "name": "FONT_DATE_10",
-        "file": "fonts/BarlowCondensed-Bold.ttf",
+        "name": "FONT_LG_12",
+        "file": "fonts/LeagueGothic-Regular.ttf",
         "characterRegex": "[0-9A-Z ]"
       },
       {
         "type": "font",
-        "name": "FONT_SMALL_8",
-        "file": "fonts/BarlowCondensed-Bold.ttf",
-        "characterRegex": "[A-Z0-9]"
+        "name": "FONT_LG_09",
+        "file": "fonts/LeagueGothic-Regular.ttf",
+        "characterRegex": "[A-Z]"
       }
     ]
   }
