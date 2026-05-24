@@ -39,7 +39,7 @@
 // ── Day name (inside rect, right of date) ─────────────────────────────────────
 #define DAY_X      (DATE_X + DATE_W + 2)
 #define DAY_Y      (RECT_Y + 15)
-#define DAY_W      26
+#define DAY_W      40
 #define DAY_H      9
 
 // ── Valve watermark: bottom-right, partially off-screen ──────────────────────
@@ -90,7 +90,7 @@ static void update_time(struct tm *t) {
            t->tm_mday, mo[t->tm_mon], t->tm_year % 100);
 
   static const char *dy[] = {
-    "SUN","MON","TUE","WED","THU","FRI","SAT"
+    "SUNDAY","MONDAY","TUESDAY","WEDNESDAY","THURSDAY","FRIDAY","SATURDAY"
   };
   snprintf(s_day_buf, sizeof(s_day_buf), "%s", dy[t->tm_wday]);
 }
