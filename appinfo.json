@@ -1,0 +1,35 @@
+{
+  "uuid": "b1a2c3d4-e5f6-7890-abcd-ef1234567891",
+  "shortName": "Valve",
+  "longName": "Valve Watchface",
+  "companyName": "Manaksu",
+  "versionLabel": "1.0",
+  "sdkVersion": "3",
+  "targetPlatforms": ["basalt"],
+  "watchapp": {
+    "watchface": true
+  },
+  "appKeys": {},
+  "resources": {
+    "media": [
+      {
+        "type": "font",
+        "name": "FONT_TIME_14",
+        "file": "fonts/TitlingGothicNarrow-Medium.ttf",
+        "characterRegex": "[0-9:]"
+      },
+      {
+        "type": "font",
+        "name": "FONT_DATE_10",
+        "file": "fonts/TitlingGothicNarrow-Medium.ttf",
+        "characterRegex": "[0-9A-Z ]"
+      },
+      {
+        "type": "font",
+        "name": "FONT_SMALL_8",
+        "file": "fonts/TitlingGothicNarrow-Medium.ttf",
+        "characterRegex": "[A-Z0-9]"
+      }
+    ]
+  }
+}
