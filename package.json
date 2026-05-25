@@ -1,7 +1,7 @@
 {
   "uuid": "a1b2c3d4-e5f6-7890-abcd-ef1234567890",
-  "shortName": "LeagueTime",
-  "longName": "League Time",
+  "shortName": "ValveWatch",
+  "longName": "ValveWatch",
   "companyName": "Manaksu",
   "versionLabel": "1.0",
   "sdkVersion": "3",
@@ -9,22 +9,11 @@
   "watchapp": {
     "watchface": true
   },
+  "capabilities": ["configurable"],
+  "appKeys": {
+    "watermark": 0
+  },
   "resources": {
-    "media": [
-      {
-        "type": "font",
-        "name": "LG_48",
-        "file": "fonts/LeagueGothic-Regular-VariableFont_wdth.ttf",
-        "characterRegex": "[0-9:]",
-        "compatibility": "2.7"
-      },
-      {
-        "type": "font",
-        "name": "LG_16",
-        "file": "fonts/LeagueGothic-Regular-VariableFont_wdth.ttf",
-        "characterRegex": "[AaPpMm]",
-        "compatibility": "2.7"
-      }
-    ]
+    "media": []
   }
 }
