@@ -288,7 +288,7 @@ static void draw_gamepad(GContext *ctx, int ox, int oy) {
 }
 
 // ── AppMessage ────────────────────────────────────────────────────────────────
-// Key 0 = show_gamepad (1=on, 0=off)
+// Key 0 = watermark (0=off, 1=steamdeck, 2=valve, 3=battery white, 4=battery distressed)
 static void prv_inbox_received(DictionaryIterator *iter, void *context) {
   Tuple *t0 = dict_find(iter, 0);
   if (t0) s_settings.watermark = (uint8_t)t0->value->int32;
