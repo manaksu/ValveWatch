@@ -3,7 +3,7 @@
   "shortName": "Valve",
   "longName": "Valve Watchface",
   "companyName": "Manaksu",
-  "versionLabel": "1.15",
+  "versionLabel": "1.30",
   "sdkVersion": "3",
   "targetPlatforms": ["basalt"],
   "watchapp": {
