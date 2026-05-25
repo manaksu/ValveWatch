@@ -530,6 +530,40 @@ static void draw_lambda_battery(GContext *ctx, int ox, int oy, int battery_pct) 
   }
 }
 
+
+// ── Distressed orange lambda — battery indicator ──────────────────────────────
+// LCG seeded random for consistent distress pattern (no stdlib rand dependency)
+static uint32_t s_lcg_state = 42;
+static uint32_t prv_lcg_rand(void) {
+  s_lcg_state = s_lcg_state * 1664525 + 1013904223;
+  return s_lcg_state;
+}
+
+static void draw_lambda_battery_distressed(GContext *ctx, int ox, int oy, int battery_pct) {
+  int drain_rows = LAMBDA_H - (LAMBDA_H * battery_pct / 100);
+  s_lcg_state = 42; // reset seed each draw for consistent pattern
+  int i = 0;
+  while (LAMBDA_RUNS[i] != 255) {
+    int row = LAMBDA_RUNS[i];
+    int x0  = LAMBDA_RUNS[i+1];
+    int x1  = LAMBDA_RUNS[i+2];
+    for (int x = x0; x <= x1; x++) {
+      uint32_t r = prv_lcg_rand() % 100;
+      if (r < 18) { i += 0; continue; } // skip pixel = scratch
+      // On Basalt: orange closest = GColorChromeYellow, dim = GColorDarkGray
+      if (row < drain_rows) {
+        graphics_context_set_stroke_color(ctx, GColorDarkGray);
+      } else {
+        // alternate between orange shades for texture
+        GColor col = (prv_lcg_rand() % 10 < 7) ? GColorChromeYellow : GColorOrange;
+        graphics_context_set_stroke_color(ctx, col);
+      }
+      graphics_draw_pixel(ctx, GPoint(ox + x, oy + row));
+    }
+    i += 3;
+  }
+}
+
 // ── Draw ──────────────────────────────────────────────────────────────────────
 static void canvas_update_proc(Layer *layer, GContext *ctx) {
   time_t now = time(NULL);
@@ -600,6 +634,9 @@ static void canvas_update_proc(Layer *layer, GContext *ctx) {
   } else if (s_settings.watermark == 3) {
     BatteryChargeState bat = battery_state_service_peek();
     draw_lambda_battery(ctx, 144 - LAMBDA_W - 4, 168 - LAMBDA_H - 4, bat.charge_percent);
+  } else if (s_settings.watermark == 4) {
+    BatteryChargeState bat = battery_state_service_peek();
+    draw_lambda_battery_distressed(ctx, 144 - LAMBDA_W - 4, 168 - LAMBDA_H - 4, bat.charge_percent);
   }
 }
 

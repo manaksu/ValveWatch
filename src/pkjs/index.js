@@ -1,7 +1,7 @@
 /*
  * ValveWatch — PebbleKit JS
  * AppMessage keys:
- *   0 = watermark : 0=off, 1=Steam Deck, 2=Valve logo, 3=Battery (lambda)
+ *   0 = watermark : 0=off, 1=Steam Deck, 2=Valve logo, 3=Battery (white λ), 4=Battery distressed (orange λ)
  */
 function loadCfg() {
   return {
@@ -51,7 +51,8 @@ function buildConfig(c) {
         'Off',
         'Steam Deck outline',
         'Valve logo',
-        'Battery status \u2014 Half-Life \u03bb'
+        'Battery \u2014 Half-Life \u03bb',
+        'Battery \u2014 Half-Life \u03bb distressed'
       ], c.watermark)
     + '<button id="s">Save</button>'
     + '<script>'
