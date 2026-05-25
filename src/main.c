@@ -72,9 +72,9 @@ static void window_load(Window *window) {
   GRect bounds = layer_get_bounds(root);
 
   s_font_time = fonts_load_custom_font(
-    resource_get_handle(RESOURCE_ID_LEAGUE_GOTHIC_60));
+    resource_get_handle(RESOURCE_ID_FONT_LEAGUE_GOTHIC_60));
   s_font_ampm = fonts_load_custom_font(
-    resource_get_handle(RESOURCE_ID_LEAGUE_GOTHIC_18));
+    resource_get_handle(RESOURCE_ID_FONT_LEAGUE_GOTHIC_18));
 
   s_canvas = layer_create(bounds);
   layer_set_update_proc(s_canvas, canvas_update_proc);
@@ -95,7 +95,7 @@ static void init(void) {
     .unload = window_unload,
   });
   window_stack_push(s_window, true);
-  tick_timer_service_subscribe(MINUTE_UNITS, tick_handler);
+  tick_timer_service_subscribe(MINUTE_UNIT, tick_handler);
 }
 
 static void deinit(void) {
