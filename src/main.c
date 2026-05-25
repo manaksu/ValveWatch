@@ -3,58 +3,56 @@
 static Window *s_window;
 static Layer  *s_canvas;
 
-static GFont s_font_time;   // 60px  — HH:MM
-static GFont s_font_ampm;   // 18px  — am/pm superscript
+static GFont s_font_time;   // 48px  — HH:MM
+static GFont s_font_ampm;   // 16px  — am/pm superscript
 
 // ─── Draw ────────────────────────────────────────────────────────────────────
 static void canvas_update_proc(Layer *layer, GContext *ctx) {
   time_t now = time(NULL);
   struct tm *t = localtime(&now);
 
-  char time_buf[6];  // "12:34"
-  char ampm_buf[3];  // "am" / "pm"
+  char time_buf[6];
+  char ampm_buf[3];
 
-  // 12-hour format
   int hour = t->tm_hour % 12;
   if (hour == 0) hour = 12;
 
   snprintf(time_buf, sizeof(time_buf), "%d:%02d", hour, t->tm_min);
   snprintf(ampm_buf, sizeof(ampm_buf), "%s", t->tm_hour < 12 ? "am" : "pm");
 
-  // ── Background ──
+  // Background
   graphics_context_set_fill_color(ctx, GColorBlack);
   graphics_fill_rect(ctx, layer_get_bounds(layer), 0, GCornerNone);
 
-  // ── HH:MM ── starts at x=4, y=15
+  // HH:MM at (4, 15)
   graphics_context_set_text_color(ctx, GColorWhite);
   graphics_draw_text(
     ctx,
     time_buf,
     s_font_time,
-    GRect(4, 15, 140, 72),
+    GRect(4, 15, 140, 58),
     GTextOverflowModeWordWrap,
     GTextAlignmentLeft,
     NULL
   );
 
-  // ── Measure time text width to place am/pm right after ──
+  // Measure time width to place am/pm superscript
   GSize time_size = graphics_text_layout_get_content_size(
     time_buf,
     s_font_time,
-    GRect(4, 15, 144, 72),
+    GRect(4, 15, 144, 58),
     GTextOverflowModeWordWrap,
     GTextAlignmentLeft
   );
 
-  // Superscript: x = 4 + text_width + 2px gap, y near cap-top
   int ampm_x = 4 + time_size.w + 2;
-  int ampm_y = 18;
+  int ampm_y = 16;
 
   graphics_draw_text(
     ctx,
     ampm_buf,
     s_font_ampm,
-    GRect(ampm_x, ampm_y, 30, 24),
+    GRect(ampm_x, ampm_y, 30, 20),
     GTextOverflowModeWordWrap,
     GTextAlignmentLeft,
     NULL
@@ -72,9 +70,9 @@ static void window_load(Window *window) {
   GRect bounds = layer_get_bounds(root);
 
   s_font_time = fonts_load_custom_font(
-    resource_get_handle(RESOURCE_ID_FONT_LG_60));
+    resource_get_handle(RESOURCE_ID_FONT_LG_48));
   s_font_ampm = fonts_load_custom_font(
-    resource_get_handle(RESOURCE_ID_FONT_LG_18));
+    resource_get_handle(RESOURCE_ID_FONT_LG_16));
 
   s_canvas = layer_create(bounds);
   layer_set_update_proc(s_canvas, canvas_update_proc);

@@ -13,15 +13,17 @@
     "media": [
       {
         "type": "font",
-        "name": "LG_60",
+        "name": "LG_48",
         "file": "fonts/LeagueGothic-Regular-VariableFont_wdth.ttf",
-        "characterRegex": "[0-9:]"
+        "characterRegex": "[0-9:]",
+        "compatibility": "2.7"
       },
       {
         "type": "font",
-        "name": "LG_18",
+        "name": "LG_16",
         "file": "fonts/LeagueGothic-Regular-VariableFont_wdth.ttf",
-        "characterRegex": "[AaPpMm]"
+        "characterRegex": "[AaPpMm]",
+        "compatibility": "2.7"
       }
     ]
   }
