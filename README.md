@@ -1,43 +1,29 @@
-# Valve Watchface
+# League Time
 
-Pebble Time Steel (Basalt) watchface inspired by the Valve logo.
-
-## CloudPebble setup
-
-1. Create a new project → **Pebble C SDK**
-2. Settings → Source Control → link this repo (or import zip)
-3. Add `TitlingGothicNarrow-Medium.ttf` under **Resources → fonts**
-4. Compile & install
+A minimal Pebble watchface for the Pebble Time Steel (Basalt) using League Gothic.
 
 ## Layout
 
-```
-┌─────────────────────────────┐  black screen
-│ ┌───────────────────────┐   │
-│ │ 07:26 PM  [====  ]    │   │  red rect, x=4 y=15 w=89 h=25
-│ │ 24 MAY 26  SUN        │   │
-│ └───────────────────────┘   │
-│                   ╔══════╗  │
-│                   ║VALV E║  │  watermark peeking from bottom-right
-└───────────────────╚══════╝──┘
-```
+- `HH:MM` in League Gothic 60px, anchored at `(4, 15)`, top-left
+- `am`/`pm` superscript in League Gothic 18px, dynamically positioned after the time string
 
-## Files
+## CloudPebble Setup
+
+1. Create a new project → Platform: Basalt, Type: Watchface
+2. Replace the generated `package.json` with the one in this repo
+3. Upload `resources/fonts/LeagueGothic-Regular-VariableFont_wdth.ttf` as a font resource
+4. Replace `src/main.c` with the one in this repo
+5. Build & install
+
+## Structure
 
 ```
-valve-watchface/
-├── appinfo.json       ← CloudPebble manifest + font resources
+league-time/
 ├── src/
-│   └── main.c         ← full watchface C code
-└── resources/
-    └── fonts/
-        └── README.md  ← font instructions
+│   └── main.c
+├── resources/
+│   └── fonts/
+│       └── LeagueGothic-Regular-VariableFont_wdth.ttf
+├── package.json
+└── .gitignore
 ```
-
-## Font
-
-Titling Gothic Narrow Medium — closest commercial match to the Valve logo.
-Free substitute: Barlow Condensed Bold (rename the .ttf file).
-
----
-Manaksu
