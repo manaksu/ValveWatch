@@ -1,9 +1,9 @@
 {
-  "uuid": "b1a2c3d4-e5f6-7890-abcd-ef1234567891",
+  "uuid": "5fbc4b0b-e4f4-4084-a075-09d1f6a98b5c",
   "shortName": "Valve",
   "longName": "Valve Watchface",
   "companyName": "Manaksu",
-  "versionLabel": "1.0",
+  "versionLabel": "1.15",
   "sdkVersion": "3",
   "targetPlatforms": ["basalt"],
   "watchapp": {
