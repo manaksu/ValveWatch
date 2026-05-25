@@ -14,19 +14,19 @@
     "media": [
       {
         "type": "font",
-        "name": "FONT_LG_14",
+        "name": "FONT_LG_18",
         "file": "fonts/LeagueGothic-Regular.ttf",
         "characterRegex": "[0-9:]"
       },
       {
         "type": "font",
-        "name": "FONT_LG_08",
+        "name": "FONT_LG_10",
         "file": "fonts/LeagueGothic-Regular.ttf",
         "characterRegex": "[0-9A-Z ]"
       },
       {
         "type": "font",
-        "name": "FONT_LG_28",
+        "name": "FONT_LG_36",
         "file": "fonts/LeagueGothic-Regular.ttf",
         "characterRegex": "[A-Z]"
       }
