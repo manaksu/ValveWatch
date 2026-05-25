@@ -20,13 +20,13 @@
       },
       {
         "type": "font",
-        "name": "FONT_LG_09",
+        "name": "FONT_LG_08",
         "file": "fonts/LeagueGothic-Regular.ttf",
         "characterRegex": "[0-9A-Z ]"
       },
       {
         "type": "font",
-        "name": "FONT_LG_07",
+        "name": "FONT_LG_28",
         "file": "fonts/LeagueGothic-Regular.ttf",
         "characterRegex": "[A-Z]"
       }

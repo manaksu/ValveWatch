@@ -9,49 +9,52 @@
 #define RECT_W     89
 #define RECT_H     25
 
-// Time — LG_14
+// LG_14 renders ~17px glyphs + ~4px Pebble top padding = ~21px total
+// Offset TIME_Y up 4px to compensate for the top padding
 #define TIME_X     (RECT_X + 3)
-#define TIME_Y     (RECT_Y - 3)
-#define TIME_W     56
-#define TIME_H     18
+#define TIME_Y     (RECT_Y - 4)
+#define TIME_W     58
+#define TIME_H     20
 
-// AM/PM — LG_07
-#define AMPM_X     (RECT_X + 52)
+// AM/PM superscript — LG_08 renders ~10px
+#define AMPM_X     (RECT_X + 57)
 #define AMPM_Y     (RECT_Y + 1)
-#define AMPM_W     12
-#define AMPM_H     7
+#define AMPM_W     14
+#define AMPM_H     10
 
-// Battery
+// Battery icon — right edge of rect
 #define BATT_X     (RECT_X + RECT_W - 16)
-#define BATT_Y     (RECT_Y + 5)
+#define BATT_Y     (RECT_Y + 4)
 #define BATT_W     11
-#define BATT_H     6
+#define BATT_H     7
 #define BATT_NUB_W 2
 #define BATT_NUB_H 3
 
-// Date — LG_09
+// Date — LG_08, bottom row, offset up 2px for top padding
 #define DATE_X     (RECT_X + 3)
 #define DATE_Y     (RECT_Y + 13)
 #define DATE_W     48
-#define DATE_H     10
+#define DATE_H     12
 
-// Day — LG_07
+// Day — LG_08, right of date
 #define DAY_X      (RECT_X + 44)
-#define DAY_Y      (RECT_Y + 14)
+#define DAY_Y      (RECT_Y + 13)
 #define DAY_W      42
-#define DAY_H      9
+#define DAY_H      12
 
-// Watermark
-#define WM_X       94
+// Watermark — huge, mostly off-screen bottom-right
+// LG_28 renders ~34px glyphs, rect 200x70
+// Positioned so only top-left corner is visible
+#define WM_X       60
 #define WM_Y       138
-#define WM_W       58
-#define WM_H       22
+#define WM_W       200
+#define WM_H       70
 
 static Window            *s_window;
 static Layer             *s_canvas;
 static GFont              s_font_lg14;
-static GFont              s_font_lg09;
-static GFont              s_font_lg07;
+static GFont              s_font_lg08;
+static GFont              s_font_lg28;
 static char               s_time_buf[6];
 static char               s_ampm_buf[3];
 static char               s_date_buf[12];
@@ -94,44 +97,58 @@ static void draw_battery(GContext *ctx, int pct) {
 }
 
 static void draw_watermark(GContext *ctx) {
+  // Outline rect — clips at screen edges naturally
   graphics_context_set_stroke_color(ctx, GColorDarkGray);
   graphics_draw_rect(ctx, GRect(WM_X, WM_Y, WM_W, WM_H));
+
+  // VALV — large League Gothic, offset up 4px for top padding
   graphics_context_set_text_color(ctx, GColorDarkGray);
-  graphics_draw_text(ctx, "VALV", s_font_lg09,
-    GRect(WM_X + 2, WM_Y - 1, 46, 20),
+  graphics_draw_text(ctx, "VALV", s_font_lg28,
+    GRect(WM_X + 4, WM_Y - 4, 190, 68),
     GTextOverflowModeWordWrap, GTextAlignmentLeft, NULL);
-  graphics_draw_text(ctx, "E", s_font_lg07,
-    GRect(WM_X + 46, WM_Y + 1, 10, 10),
+
+  // Small E superscript
+  graphics_draw_text(ctx, "E", s_font_lg08,
+    GRect(WM_X + 148, WM_Y + 2, 20, 12),
     GTextOverflowModeWordWrap, GTextAlignmentLeft, NULL);
 }
 
 static void canvas_update_proc(Layer *layer, GContext *ctx) {
+  // 1. Black background
   graphics_context_set_fill_color(ctx, GColorBlack);
   graphics_fill_rect(ctx, GRect(0, 0, SCREEN_W, SCREEN_H), 0, GCornerNone);
 
+  // 2. Watermark behind everything
   draw_watermark(ctx);
 
+  // 3. Red rectangle
   graphics_context_set_fill_color(ctx, GColorRed);
   graphics_fill_rect(ctx, GRect(RECT_X, RECT_Y, RECT_W, RECT_H), 0, GCornerNone);
 
+  // 4. All text drawn AFTER the rectangle
   graphics_context_set_text_color(ctx, GColorBlack);
 
+  // Time
   graphics_draw_text(ctx, s_time_buf, s_font_lg14,
     GRect(TIME_X, TIME_Y, TIME_W, TIME_H),
     GTextOverflowModeWordWrap, GTextAlignmentLeft, NULL);
 
-  graphics_draw_text(ctx, s_ampm_buf, s_font_lg07,
+  // AM/PM
+  graphics_draw_text(ctx, s_ampm_buf, s_font_lg08,
     GRect(AMPM_X, AMPM_Y, AMPM_W, AMPM_H),
     GTextOverflowModeWordWrap, GTextAlignmentLeft, NULL);
 
+  // Battery
   draw_battery(ctx, s_battery.charge_percent);
 
-  graphics_draw_text(ctx, s_date_buf, s_font_lg09,
+  // Date
+  graphics_draw_text(ctx, s_date_buf, s_font_lg08,
     GRect(DATE_X, DATE_Y, DATE_W, DATE_H),
     GTextOverflowModeWordWrap, GTextAlignmentLeft, NULL);
 
+  // Day — muted
   graphics_context_set_text_color(ctx, GColorDarkCandyAppleRed);
-  graphics_draw_text(ctx, s_day_buf, s_font_lg07,
+  graphics_draw_text(ctx, s_day_buf, s_font_lg08,
     GRect(DAY_X, DAY_Y, DAY_W, DAY_H),
     GTextOverflowModeWordWrap, GTextAlignmentLeft, NULL);
 }
@@ -148,12 +165,15 @@ static void battery_handler(BatteryChargeState charge) {
 
 static void window_load(Window *window) {
   Layer *root = window_get_root_layer(window);
+
   s_font_lg14 = fonts_load_custom_font(resource_get_handle(RESOURCE_ID_FONT_LG_14));
-  s_font_lg09 = fonts_load_custom_font(resource_get_handle(RESOURCE_ID_FONT_LG_09));
-  s_font_lg07 = fonts_load_custom_font(resource_get_handle(RESOURCE_ID_FONT_LG_07));
+  s_font_lg08 = fonts_load_custom_font(resource_get_handle(RESOURCE_ID_FONT_LG_08));
+  s_font_lg28 = fonts_load_custom_font(resource_get_handle(RESOURCE_ID_FONT_LG_28));
+
   s_canvas = layer_create(GRect(0, 0, SCREEN_W, SCREEN_H));
   layer_set_update_proc(s_canvas, canvas_update_proc);
   layer_add_child(root, s_canvas);
+
   time_t now = time(NULL);
   update_time(localtime(&now));
   s_battery = battery_state_service_peek();
@@ -162,8 +182,8 @@ static void window_load(Window *window) {
 static void window_unload(Window *window) {
   layer_destroy(s_canvas);
   fonts_unload_custom_font(s_font_lg14);
-  fonts_unload_custom_font(s_font_lg09);
-  fonts_unload_custom_font(s_font_lg07);
+  fonts_unload_custom_font(s_font_lg08);
+  fonts_unload_custom_font(s_font_lg28);
 }
 
 static void init(void) {
