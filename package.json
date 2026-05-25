@@ -13,13 +13,13 @@
     "media": [
       {
         "type": "font",
-        "name": "LEAGUE_GOTHIC_60",
+        "name": "LG_60",
         "file": "fonts/LeagueGothic-Regular-VariableFont_wdth.ttf",
         "characterRegex": "[0-9:]"
       },
       {
         "type": "font",
-        "name": "LEAGUE_GOTHIC_18",
+        "name": "LG_18",
         "file": "fonts/LeagueGothic-Regular-VariableFont_wdth.ttf",
         "characterRegex": "[AaPpMm]"
       }
